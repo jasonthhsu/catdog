@@ -4,13 +4,21 @@ from keras import optimizers
 from keras.models import Sequential
 from keras.preprocessing.image import ImageDataGenerator
 import numpy as np 
+###import mlsteam function #####
+from mlsteam import stparams
 
 # step 1: load data
 
 img_width = 150
 img_height = 150
-train_data_dir = '/mlsteam/input/catdog/Cats-Dogs-with-keras-master/data/train'
-valid_data_dir = '/mlsteam/input/catdog/Cats-Dogs-with-keras-master/data/validation'
+
+######Prarms code######
+train_data_dir = '/mlsteam/input/catdog/train'
+valid_data_dir = '/mlsteam/input/catdog/validation'
+batch_size=stparams.get_value("batch_size", 128)
+validation_batch_size=stparams.get_value("validation_batch_size", 128)
+num_epochs=stparams.get_value("num_epochs", 30)
+########
 
 datagen = ImageDataGenerator(rescale = 1./255)
 
@@ -18,13 +26,13 @@ train_generator = datagen.flow_from_directory(directory=train_data_dir,
 											   target_size=(img_width,img_height),
 											   classes=['dogs','cats'],
 											   class_mode='binary',
-											   batch_size=16)
+											   batch_size=batch_size)
 
 validation_generator = datagen.flow_from_directory(directory=valid_data_dir,
 											   target_size=(img_width,img_height),
 											   classes=['dogs','cats'],
 											   class_mode='binary',
-											   batch_size=32)
+											   batch_size=validation_batch_size)
 
 
 # step-2 : build model
@@ -55,7 +63,7 @@ model.compile(loss='binary_crossentropy',optimizer='rmsprop',metrics=['accuracy'
 print('model complied!!')
 
 print('starting training....')
-training = model.fit_generator(generator=train_generator, steps_per_epoch=2048 // 16,epochs=20,validation_data=validation_generator,validation_steps=832//16)
+training = model.fit_generator(generator=train_generator, steps_per_epoch=2048 // 16,epochs=num_epochs,validation_data=validation_generator,validation_steps=832//16)
 
 print('training finished!!')
 
