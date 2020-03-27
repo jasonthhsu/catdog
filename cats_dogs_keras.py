@@ -13,8 +13,8 @@ img_width = 150
 img_height = 150
 
 ######Prarms code######
-train_data_dir = '/mlsteam/input/catdog/train'
-valid_data_dir = '/mlsteam/input/catdog/validation'
+train_data_dir = '/mlsteam/input/train'
+valid_data_dir = '/mlsteam/input/validation'
 batch_size=stparams.get_value("batch_size", 128)
 validation_batch_size=stparams.get_value("validation_batch_size", 128)
 num_epochs=stparams.get_value("num_epochs", 30)
